@@ -269,7 +269,7 @@ The project consisits of three importnat parts. The main App component, the tabl
 < breakdown of the how the interpreter is written >
 
 #### Types
-< breakdown of the importnat types >
+* input-definitions.ts - this file contains the data definitions for the Table. There are two sections of this file: the actual Types and the type-guards. 
 
 You can find more extensive documentation inside the files. 
 
