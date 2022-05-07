@@ -15,12 +15,18 @@
         "react-table": "^6.11.5",
         "react-timeago": "^4.4.0"
     },
+    "jest": {
+        "moduleNameMapper": {
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+        "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+        }
+    },
     "scripts": {
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
         "start": "react-scripts start",
         "build": "tsc",
-        "test": "react-scripts test",
+        "test": "jest",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -39,7 +45,14 @@
         ]
     },
     "devDependencies": {
+        "@babel/core": "^7.17.10",
+        "@babel/preset-env": "^7.17.10",
+        "@babel/preset-react": "^7.16.7",
+        "@babel/preset-typescript": "^7.16.7",
         "@types/react": "^17.0.39",
+        "babel-jest": "^24.9.0",
+        "jest": "^24.9.0",
+        "react-test-renderer": "^16.14.0",
         "typescript": "^3.9.10"
     }
 }

@@ -331,7 +331,7 @@ class App extends React.Component<Props, State> {
                         if (!isValidatedProgInputNonYellow(example.want.validated)) {
                             let displayButton = <button onClick={() => (example.wantInputRef.current === null ? (console.log('no ref')) : example.wantInputRef.current.focus())}> Go to Want </button>;
                             let displayElem:JSX.Element = (<React.Fragment>
-                                                                {displayButton}({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) doesn't have a want
+                                                                ({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) doesn't have a want {displayButton}
                                                             </React.Fragment>);
                             let e = new InterpreterError("example doesn't have a want", displayElem);
                             throw e;
