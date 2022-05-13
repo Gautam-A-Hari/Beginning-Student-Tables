@@ -88,17 +88,7 @@ class Want extends React.Component<Props, State> {
                 if (deepEquals(evalWant, this.props.want.validated)) {
                     valueCell = <script />;
                 } else {
-                    valueCell = <td className='output' onClick={() => this.handleViewClick(evalWant)}>{this.state.isOpen && (
-                        <dialog
-                            className="dialog"
-                            style={{ position: "absolute" }}
-                            open
-                            onClick={() => this.handleViewClick(evalWant)}
-                        >
-                            {unparse_cons(evalWant)}
-                        </dialog>)}
-                        {unparse_cons(evalWant, true)}
-                    </td>
+                    valueCell = <td>{unparse_cons(evalWant)}</td>
                 }
             } catch (e) {
                 valueCell = <td><ErrorMessage error={e as any} /></td>
