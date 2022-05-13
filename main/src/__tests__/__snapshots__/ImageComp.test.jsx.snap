@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="image-output"
+  onClick={[Function]}
+>
+  <svg
+    height={250}
+    viewBox="0 0 250 250"
+    width={250}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g
+      style={
+        Object {
+          "transform": "scale(0.8333333333333334)",
+        }
+      }
+    >
+      <circle
+        cx={150}
+        cy={150}
+        fill="rgba(250, 250, 250, 0)"
+        r={150}
+      />
+    </g>
+  </svg>
+</div>
+`;
