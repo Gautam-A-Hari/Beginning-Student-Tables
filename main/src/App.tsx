@@ -11,9 +11,11 @@ import './App.css';
 // component imports 
 
 // Type Imports
-import { CheckExpect, Example, ExampleArray, Formula, FormulaArray, Input, InputArray, isBooleanFormula, isValidatedProgInputNonYellow,
-        isTableNameYellow, Parameter, ProgramInput, Table, ValidatedProgInput, OutputArray, Output, isOutputNonYellow, isParamNonYellow, 
-        isYellowProgramGray, ParameterArray } from './input-definitions';
+import {
+    CheckExpect, Example, ExampleArray, Formula, FormulaArray, Input, InputArray, isBooleanFormula, isValidatedProgInputNonYellow,
+    isTableNameYellow, Parameter, ProgramInput, Table, ValidatedProgInput, OutputArray, Output, isOutputNonYellow, isParamNonYellow,
+    isYellowProgramGray, ParameterArray
+} from './input-definitions';
 
 import { DefinitionsArea } from './components/DefinitionsArea';
 import { Succinct } from './components/Table/Succinct';
@@ -186,7 +188,7 @@ function deepEquals(proga: Program, progb: Program): boolean {
 
 
 interface Props {
-    snapshots : Snapshot
+    snapshots: Snapshot
 }
 
 interface State {
@@ -201,18 +203,18 @@ interface State {
 class App extends React.Component<Props, State> {
     // i am unsure how this works
     sendifier: Sendifier | undefined;
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
         let prefix = '';
         let prefixError = false;
-        let globalEnv:Environment = initEnv;
-        let tables:Array<Table> = [{
-            examples: [{ inputs: [{ prog: { raw: '', validated: { yellow: 'yellow' }}, key: takeKey() }], want: { raw: '', validated: { yellow: 'yellow' }}, wantInputRef: React.createRef(), key: takeKey() }],
-            formulas: [{ prog: { raw: '', validated: { yellow: 'yellow' }}, outputs: [{ yellow: 'yellow' }], key: takeKey() }],
-            params: [{ name: {yellow: 'yellow'}, key: takeKey() }],
-            name: {yellow : 'yellow' },
-            signature: {yellow: 'yellow'},
-            purpose: {yellow: 'yellow'},
+        let globalEnv: Environment = initEnv;
+        let tables: Array<Table> = [{
+            examples: [{ inputs: [{ prog: { raw: '', validated: { yellow: 'yellow' } }, key: takeKey() }], want: { raw: '', validated: { yellow: 'yellow' } }, wantInputRef: React.createRef(), key: takeKey() }],
+            formulas: [{ prog: { raw: '', validated: { yellow: 'yellow' } }, outputs: [{ yellow: 'yellow' }], key: takeKey() }],
+            params: [{ name: { yellow: 'yellow' }, key: takeKey() }],
+            name: { yellow: 'yellow' },
+            signature: { yellow: 'yellow' },
+            purpose: { yellow: 'yellow' },
             key: takeKey()
         }];
         // are we playing back? or recording?
@@ -254,7 +256,7 @@ class App extends React.Component<Props, State> {
         this.sendifier = new Sendifier(3000, Math.floor(Math.random() * 1000000000));
     }
 
-    componentDidUpdate(prevProps:Props) {
+    componentDidUpdate(prevProps: Props) {
         if (isSnapshotArray(this.props.snapshots) &&
             this.props.snapshots !== prevProps.snapshots &&
             this.props.snapshots.length > 0) {
@@ -266,7 +268,7 @@ class App extends React.Component<Props, State> {
             } catch (e) {
                 prefixError = e as any;
             }
-            let tables:Array<Table> = this.calculate(globalEnv, this.props.snapshots[0].tables);
+            let tables: Array<Table> = this.calculate(globalEnv, this.props.snapshots[0].tables);
             this.setState({
                 prefix, prefixError, globalEnv, tables,
                 playbackTime: 0, snapshots: undefined
@@ -289,24 +291,24 @@ class App extends React.Component<Props, State> {
      * @param newExample Example to be added to table
      * @param tableIndex Index of the table to be added in this.state.tables array
      */
-    addNewExampleToTable(newExample: Example, tableIndex:number):any {
-        let tables =  Array.from(this.state.tables);
+    addNewExampleToTable(newExample: Example, tableIndex: number): any {
+        let tables = Array.from(this.state.tables);
         let currentTable = tables[tableIndex];
-        let currentExamples:ExampleArray = Array.from(currentTable.examples);
-        let newExamples:ExampleArray = [...currentExamples, newExample];
-        let newTable = {...currentTable, examples: newExamples};
+        let currentExamples: ExampleArray = Array.from(currentTable.examples);
+        let newExamples: ExampleArray = [...currentExamples, newExample];
+        let newTable = { ...currentTable, examples: newExamples };
         tables[tableIndex] = newTable;
-      
+
         this.setState({
             tables: this.calculate(this.state.globalEnv, tables)
         });
     }
-    
-    calculate(env:Environment, program:Array<Table>):Array<Table> {
+
+    calculate(env: Environment, program: Array<Table>): Array<Table> {
         const addNewExampleToTable = this.addNewExampleToTable.bind(this);
 
-        function makeLookup(table:Table, tableIndex:number) {
-            function lookup(args:ProgramArray) {
+        function makeLookup(table: Table, tableIndex: number) {
+            function lookup(args: ProgramArray) {
                 if (args.length !== table.params.length) {
                     throw new Error('Arity Mismatch, expected ' + table.params.length + ' argument' + (table.params.length === 1 ? '' : 's'));
                 }
@@ -330,9 +332,9 @@ class App extends React.Component<Props, State> {
                     })) {
                         if (!isValidatedProgInputNonYellow(example.want.validated)) {
                             let displayButton = <button onClick={() => (example.wantInputRef.current === null ? (console.log('no ref')) : example.wantInputRef.current.focus())}> Go to Want </button>;
-                            let displayElem:JSX.Element = (<React.Fragment>
-                                                                ({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) doesn't have a want {displayButton}
-                                                            </React.Fragment>);
+                            let displayElem: JSX.Element = (<React.Fragment>
+                                ({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) doesn't have a want {displayButton}
+                            </React.Fragment>);
                             let e = new InterpreterError("example doesn't have a want", displayElem);
                             throw e;
                         } else {
@@ -346,10 +348,10 @@ class App extends React.Component<Props, State> {
 
                 if (expr === undefined) {
 
-                    let displayElem:JSX.Element = (<>
-                                                        <React.Fragment>({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) is not an example</React.Fragment>
-                                                        <AddExampleButton args={args} tableIdx={tableIndex} addExample={addNewExampleToTable} />
-                                                    </>);
+                    let displayElem: JSX.Element = (<>
+                        <React.Fragment>({table.name}{args.flatMap(a => [' ', ...unparse(a)])}) is not an example</React.Fragment>
+                        <AddExampleButton args={args} tableIdx={tableIndex} addExample={addNewExampleToTable} />
+                    </>);
                     let e = new InterpreterError("example not found error", displayElem);
                     throw e;
                 }
@@ -363,9 +365,9 @@ class App extends React.Component<Props, State> {
         let lookups = program.map((table, tableIndex) => ({ name: table.name, binding: { value: makeLookup(table, tableIndex), type: RFUNCT_T } }));
         let tableEnv = [...env, ...lookups];
 
-        function calcTable(table:Table):Table {
-            function calcFormula(formula:Formula, examples:ExampleArray):Formula {
-                let outputs:OutputArray = examples.map((example) => {
+        function calcTable(table: Table): Table {
+            function calcFormula(formula: Formula, examples: ExampleArray): Formula {
+                let outputs: OutputArray = examples.map((example) => {
 
                     if (!isValidatedProgInputNonYellow(example.want.validated) && isYellowProgramGray(example.want.validated)) {
                         return gray;
@@ -390,10 +392,10 @@ class App extends React.Component<Props, State> {
                     let localEnv = table.params.map((param, i) => ({ name: param.name, binding: interp(example.inputs[i].prog.validated, tableEnv) }));
                     let env = [...tableEnv, ...localEnv];
 
-                    let output:Output;
+                    let output: Output;
                     try {
-                        let outputProg:Program = interp(formula.prog.validated, env);
-                        output = outputProg ;
+                        let outputProg: Program = interp(formula.prog.validated, env);
+                        output = outputProg;
                     } catch (e) {
                         output = e as any;
                     }
@@ -402,21 +404,21 @@ class App extends React.Component<Props, State> {
                 });
 
                 if (allBools(outputs) || (isBooleanFormula(formula) && formula.thenChildren.length !== 0)) {
-                    function maybeSpecial(example:Example, output:Output):Example {
+                    function maybeSpecial(example: Example, output: Output): Example {
                         if ((!isOutputNonYellow(output) && isYellowProgramGray(output)) || ((isOutputNonYellow(output) && isRBOOL(output) && output.value === false))) {
-                            return {inputs: [], want: {raw:'', validated: gray}, wantInputRef: React.createRef(), key: takeKey()};
+                            return { inputs: [], want: { raw: '', validated: gray }, wantInputRef: React.createRef(), key: takeKey() };
                         }
-                            // used to be: typeof outputs.value !== 'boolean'
+                        // used to be: typeof outputs.value !== 'boolean'
                         else if (isOutputNonYellow(output) && !isRBOOL(output))
-                            return {inputs: [], want: {raw: '', validated: pink}, wantInputRef: React.createRef(), key: takeKey()};
+                            return { inputs: [], want: { raw: '', validated: pink }, wantInputRef: React.createRef(), key: takeKey() };
                         else
                             return example;
                     }
                     if (!isBooleanFormula(formula)) {
-                        var thenChildren:FormulaArray = [];
+                        var thenChildren: FormulaArray = [];
                     } else {
                         let subExamples = examples.map((example, i) => maybeSpecial(example, outputs[i]));
-                        thenChildren = formula.thenChildren.map((formula:Formula) => calcFormula(formula, subExamples));
+                        thenChildren = formula.thenChildren.map((formula: Formula) => calcFormula(formula, subExamples));
                     }
 
                     return {
@@ -429,15 +431,15 @@ class App extends React.Component<Props, State> {
                         ...formula,
                         outputs
                     };
-                    
+
                     // this should work the same as delete newFormula.thenChildren;
-                    newFormula = {prog: newFormula.prog, outputs: newFormula.outputs, key: newFormula.key};
+                    newFormula = { prog: newFormula.prog, outputs: newFormula.outputs, key: newFormula.key };
                     return newFormula;
                 }
             }
 
-            
-            if (isTableNameYellow(table.name) || !table.params.every((param:Parameter) => isParamNonYellow(param))) {
+
+            if (isTableNameYellow(table.name) || !table.params.every((param: Parameter) => isParamNonYellow(param))) {
                 // if the table or any of the table's parameters don't have a name yet, freeze outputs
                 return { ...table };
             } else {
@@ -453,9 +455,9 @@ class App extends React.Component<Props, State> {
     }
 
     // tables only change if there is no error
-    prefixChange(prefix:string):any {
+    prefixChange(prefix: string): any {
         let tables = this.state.tables;
-        let globalEnv:Environment;
+        let globalEnv: Environment;
         try {
             globalEnv = interpPrefix(parsePrefix(prefix), initEnv);
         } catch (prefixError) {
@@ -470,35 +472,40 @@ class App extends React.Component<Props, State> {
         tables = this.calculate(globalEnv, tables);
         this.setState((state) => ({
             prefix, prefixError: false, globalEnv, tables,
-            snapshots: !this.props.snapshots &&  state.snapshots !== undefined && isSnapshotArray(state.snapshots)
+            snapshots: !this.props.snapshots && state.snapshots !== undefined && isSnapshotArray(state.snapshots)
                 ? [...state.snapshots, { prefix, tables }]
                 : state.snapshots
         }));
         return false;
     }
 
-    programChange(newProg:Array<Table>) {
+    programChange(newProg: Array<Table>) {
         this.setState(state => {
             let prefix = state.prefix;
             let tables = this.calculate(state.globalEnv, newProg);
             return {
                 tables,
-                snapshots: !this.props.snapshots &&  state.snapshots !== undefined && isSnapshotArray(state.snapshots)
+                snapshots: !this.props.snapshots && state.snapshots !== undefined && isSnapshotArray(state.snapshots)
                     ? [...state.snapshots, { prefix, tables }]
                     : state.snapshots
             }
         });
     }
 
-    // handleOnDrag : Examples Number -> Table
-    // assings the Table with the new Example and updates the state of tables
-    handleOnDrag(newExampleOrder:ExampleArray, tableIndex:number, dummyMoved = false) {
-        const currentTables:Array<Table> = Array.from(this.state.tables);
+
+    /**
+     * Assings the Table with the given new list of Example and updates the state of Tables
+     * @param newExampleOrder   the new list of Example
+     * @param tableIndex        the index of the table to insert newExampleOrder into
+     * @param dummyMoved        weather a dummy was moved
+     */
+    handleOnDrag(newExampleOrder: ExampleArray, tableIndex: number, dummyMoved = false) {
+        const currentTables: Array<Table> = Array.from(this.state.tables);
         const tableToChange = currentTables[tableIndex];
         if (dummyMoved) {
             const currentFormulas = tableToChange.formulas;
             // adds a {yellow:'yellow'} to every formula's outputs
-            const newFormulas:FormulaArray = currentFormulas.map((_, i) => ({ ...currentFormulas[i], outputs: [...currentFormulas[i].outputs, { yellow: 'yellow' }] }));
+            const newFormulas: FormulaArray = currentFormulas.map((_, i) => ({ ...currentFormulas[i], outputs: [...currentFormulas[i].outputs, { yellow: 'yellow' }] }));
             const changedTable = { ...tableToChange, examples: newExampleOrder, formulas: newFormulas }
             currentTables[tableIndex] = changedTable;
             this.setState({
@@ -513,12 +520,16 @@ class App extends React.Component<Props, State> {
         }
     }
 
-    // String ->
-    // takes the string from the check-expect area and parses it, adding it to the tables
+
     // TODO: pass down error message to make import area red if there is an error in parsing
-    importCheckExpects(expression:string) {
-        let tables:Array<Table> = Array.from(this.state.tables);
-        let checkExpects:Array<CheckExpect>;
+    /**
+     * Parses the given string from the check-expect area, adding its contents and updating the tables state
+     * @param expression the check-expect expression to import from
+     * @returns state change
+     */
+    importCheckExpects(expression: string) {
+        let tables: Array<Table> = Array.from(this.state.tables);
+        let checkExpects: Array<CheckExpect>;
         try {
             checkExpects = parsePrefix(expression, true);
         } catch (ceError) {
@@ -538,7 +549,7 @@ class App extends React.Component<Props, State> {
                 tables = this.addNewTable(checkExpect, tables);
             }
         });
-        this.setState({tables : this.calculate(this.state.globalEnv, tables)})
+        this.setState({ tables: this.calculate(this.state.globalEnv, tables) })
     }
 
     // returns a new table containing the given check expect
@@ -548,42 +559,46 @@ class App extends React.Component<Props, State> {
      * @param tables the array of Tables to add to
      * @returns a new array of Tables including the Table generated from checkExpect
      */
-    addNewTable(checkExpect: CheckExpect, tables: Array<Table>):Array<Table> {
+    addNewTable(checkExpect: CheckExpect, tables: Array<Table>): Array<Table> {
         // let tables = this.state.tables;
-        let inputs:InputArray = [];
-        checkExpect.inputs.forEach((input:ProgramInput, inputIdx:number) => {
-            let tabInput:Input = {prog: input, key: takeKey()};
+        let inputs: InputArray = [];
+        checkExpect.inputs.forEach((input: ProgramInput, inputIdx: number) => {
+            let tabInput: Input = { prog: input, key: takeKey() };
             inputs = [...inputs, tabInput];
         });
-        let examples:ExampleArray = [{inputs: inputs, want: checkExpect.want, wantInputRef: React.createRef(), key: takeKey()}];
+        let examples: ExampleArray = [{ inputs: inputs, want: checkExpect.want, wantInputRef: React.createRef(), key: takeKey() }];
 
-        let newParams:ParameterArray = [];
+        let newParams: ParameterArray = [];
         checkExpect.inputs.forEach((input, i) => {
             if (i >= newParams.length) {
-                let newParam:Parameter = { name: {yellow: "yellow"}, key: takeKey() };
+                let newParam: Parameter = { name: { yellow: "yellow" }, key: takeKey() };
                 newParams = [...newParams, newParam];
             }
         });
 
-        let newTab:Table = {name: checkExpect.name, examples: examples, 
-                            formulas: [{prog: {raw: "", validated: {yellow: "yellow"}}, 
-                                        outputs: [{yellow: "yellow" }], 
-                                        key: takeKey()}],
-                            params: newParams,
-                            signature: {yellow: 'yellow'},
-                            purpose: {yellow: 'yellow'},
-                            key: takeKey()};
+        let newTab: Table = {
+            name: checkExpect.name, examples: examples,
+            formulas: [{
+                prog: { raw: "", validated: { yellow: "yellow" } },
+                outputs: [{ yellow: "yellow" }],
+                key: takeKey()
+            }],
+            params: newParams,
+            signature: { yellow: 'yellow' },
+            purpose: { yellow: 'yellow' },
+            key: takeKey()
+        };
         tables = [...tables, newTab];
         return tables;
     }
-    
+
     /**
      * Adss the checkExpect to an existing table
      * @param checkExpect the CheckExpect to add
      * @param tableToChange the Table to add checkExpect to
      * @returns a new Table with the added checkExpect
      */
-    addToTable(checkExpect: CheckExpect, tableToChange:Table):Table {
+    addToTable(checkExpect: CheckExpect, tableToChange: Table): Table {
 
         /**
          * Determines whether the given Example is in the Table
@@ -591,7 +606,7 @@ class App extends React.Component<Props, State> {
          * @param table the Table to search in
          * @returns whether the Example is in the Table
          */
-        function isExampleInTable(example:Example, table:Table) {
+        function isExampleInTable(example: Example, table: Table) {
             for (let i = 0; i < table.examples.length; i++) {
                 if (examplesSame(example, table.examples[i]) && (table.examples[i].want.raw === example.want.raw)) {
                     return true;
@@ -616,23 +631,23 @@ class App extends React.Component<Props, State> {
             return true;
         }
 
-        
+
         /**
          * Generates a new Example from the given CheckExpect
          * @param checkExpect the CheckExpect to generate the new Example from
          * @returns new Example generated from the given CheckExpect
          */
         function generateNewExample(checkExpect: CheckExpect) {
-            let newExample:Example;
-            let newInputs:InputArray = [];
+            let newExample: Example;
+            let newInputs: InputArray = [];
             // find the length of the longest inputs array out of all the examples in the table to change
             let currentMost = tableToChange.examples[0].inputs.length;
-            tableToChange.examples.forEach((example:Example) => {
+            tableToChange.examples.forEach((example: Example) => {
                 currentMost = example.inputs.length > currentMost ? example.inputs.length : currentMost;
             });
 
             // generate new InputArray from the CheckExpect
-            checkExpect.inputs.forEach((ceInput:ProgramInput, ceIdx:number) => {
+            checkExpect.inputs.forEach((ceInput: ProgramInput, ceIdx: number) => {
                 let newInput = { prog: { raw: ceInput.raw, validated: ceInput.validated }, key: takeKey() };
                 newInputs = [...newInputs, newInput];
             });
@@ -643,12 +658,12 @@ class App extends React.Component<Props, State> {
             if (newInputsLength < currentMost) {
                 let diff = currentMost - newInputsLength;
                 for (let i = 0; i < diff; i++) {
-                    newInputs = [...newInputs, { prog: { raw: "", validated: { yellow: 'yellow'}}, key: takeKey() }];
+                    newInputs = [...newInputs, { prog: { raw: "", validated: { yellow: 'yellow' } }, key: takeKey() }];
                 }
             }
-            
 
-            let newWant:ProgramInput = { raw: checkExpect.want.raw, validated: checkExpect.want.validated};
+
+            let newWant: ProgramInput = { raw: checkExpect.want.raw, validated: checkExpect.want.validated };
             newExample = { inputs: newInputs, want: newWant, wantInputRef: React.createRef(), key: takeKey() };
             return newExample;
         }
@@ -661,12 +676,12 @@ class App extends React.Component<Props, State> {
             return tableToChange;
         }
 
-        let newFormulas:FormulaArray = [];
-        let newParams:ParameterArray = tableToChange.params;
-        let newExamples:ExampleArray = [];
+        let newFormulas: FormulaArray = [];
+        let newParams: ParameterArray = tableToChange.params;
+        let newExamples: ExampleArray = [];
 
         let currentMost = tableToChange.examples[0].inputs.length;
-        tableToChange.examples.forEach((example:Example) => {
+        tableToChange.examples.forEach((example: Example) => {
             currentMost = example.inputs.length > currentMost ? example.inputs.length : currentMost;
         });
 
@@ -682,12 +697,12 @@ class App extends React.Component<Props, State> {
             } else {
                 newExamples = [...tableToChange.examples, newExample];
             }
-            
+
         });
 
         // find most inputs after the new example has been generated
         let mostInputs = newExamples[0].inputs.length;
-        newExamples.forEach((example:Example) => {
+        newExamples.forEach((example: Example) => {
             mostInputs = example.inputs.length > mostInputs ? example.inputs.length : mostInputs;
         });
 
@@ -696,9 +711,9 @@ class App extends React.Component<Props, State> {
         // this is sloppy way of doing it since it mutates the table directly, but it works
         tableToChange.examples.forEach((example, i) => {
             if (example.inputs.length < mostInputs) {
-                checkExpect.inputs.forEach((input, i:number) => {
+                checkExpect.inputs.forEach((input, i: number) => {
                     if (i >= example.inputs.length) {
-                        example.inputs = [...example.inputs, { prog: { raw: "", validated: { yellow: "yellow"} }, key: takeKey() }];
+                        example.inputs = [...example.inputs, { prog: { raw: "", validated: { yellow: "yellow" } }, key: takeKey() }];
                     }
                 });
             }
@@ -707,7 +722,7 @@ class App extends React.Component<Props, State> {
         // add new paramters for each new input field
         checkExpect.inputs.forEach((input, i) => {
             if (i >= newParams.length) {
-                let newParam:Parameter = { name: {yellow: "yellow"}, key: takeKey() };
+                let newParam: Parameter = { name: { yellow: "yellow" }, key: takeKey() };
                 newParams = [...newParams, newParam];
             }
         });
@@ -715,29 +730,31 @@ class App extends React.Component<Props, State> {
         // matches the number of formula outputs to the new number of examples in the table
         let formulasArr = tableToChange.formulas;
         tableToChange.formulas.forEach((formula, i) => {
-            let newOutputs:OutputArray = formula.outputs;
+            let newOutputs: OutputArray = formula.outputs;
             newExamples.forEach((example, i) => {
                 if (i >= formula.outputs.length) {
-                    let newOutput:Output = { yellow: "yellow" };
+                    let newOutput: Output = { yellow: "yellow" };
                     newOutputs = [...newOutputs, newOutput];
                 }
             });
-            let newFormula:Formula = {...formula, outputs: newOutputs};
+            let newFormula: Formula = { ...formula, outputs: newOutputs };
             formulasArr[i] = newFormula;
         });
         newFormulas = formulasArr;
 
-        let newTab:Table = {...tableToChange, 
-            formulas: newFormulas, 
+        let newTab: Table = {
+            ...tableToChange,
+            formulas: newFormulas,
             params: newParams,
-            name: checkExpect.name, 
-            examples: newExamples};
+            name: checkExpect.name,
+            examples: newExamples
+        };
 
         return newTab;
     }
 
     // event is the scroll bar
-    playbackTimeChange(event:any) {
+    playbackTimeChange(event: any) {
         const snapshots = this.props.snapshots;
         if (isSnapshotArray(snapshots)) {
             const playbackTime = Math.max(0,

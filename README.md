@@ -78,6 +78,7 @@ Two sentences describing the features.
       * [Table Components](#table-components)
       * [Interepreter](#interpreter)
       * [Types](#types)
+      * [Testing](#testing)
    + [Examples](#examples)
 
 ---
@@ -109,7 +110,6 @@ Two sentences describing the features.
 ---
 
 ## For Students
-<!-- have two sections: one for c211, one for other backgrounds -->
 **Already familiar with the Beginning Student Language?** Great! That means you're probably also already familiar with check-expects. This tool allows you to write and test different formulas with your check-expects easily! ...
 
 **Never seen this language before?** No worries! Beginning Student Language check-expects are just like unit tests. The BSL Table tool allows you to design functions and run unit tests on them. To get started with BSL's paranthesized syntax, refer to the [Parenthesized Syntax](#parenthesized-syntax) section below! ... 
@@ -118,6 +118,8 @@ Two sentences describing the features.
 Transition line... (something about getting to know the table, and being familiart with the design recipe)
 
 This section tells the user about the layout of the table tool: what the name field is, signature field, purpose, inputs, params, want, formula and etc...
+
+<!--![Table Toole Guide Image](tfpie/TableToolGuideImage.png?raw=true "TableToolGuideImage")-->
 
 * **Definitions Area** this is where you can define constants, functions, or structures
 * **Check-Expect Area** write your check-expects here, then add them to your tables using the 'import button'
@@ -139,7 +141,11 @@ This section tells the user about the layout of the table tool: what the name fi
 
 An image over here highlighting the different components of the table tool
 
-It's important to remember the colors used by the table. Yellow indicates new cells, green indicates dummy cells which when typed into will make yellow cells, pink cells means there is an error, and gray cells are unused. 
+It's important to remember the colors used by the table:
++ Yellow cells indicates new cells, which are ready to be typed into
++ Green cells indicates dummy cells, which when typed into will turn into Yellow cells
++ Pink cells indiciate that there is an error, this is usually accomponied by an error message somewhere
++ Gray cells are unsued by the Table Tool and can be ignored by the user
 
 ### Examples of Uses
 Here are some example cases on how you can use the Beginning Student Tables tool to write functions and solve problems. First let's look at a simple case, where we try to convert a temptertature in celsius to fahrenheit. 
@@ -273,14 +279,18 @@ The project consisits of three importnat parts. The main App component, the tabl
 
 You can find more extensive documentation inside the files. 
 
+#### Testing
+Testing is done with the [Jest](https://jestjs.io/) javascript library and utilizing [Enzyme](https://enzymejs.github.io/enzyme/).
+
+
 ### Examples
 
-< I think most of the explanation should be covered in the above section >
+Here are a couple examples of adding features to the Table Tool to get you started on development!
 1. Adding a Function
    - We'll add a function that returns the first character of a given string, let's call it `first-char`
    - Functions are part of the interpreter, so open `/path/to/prototypes/two/src/interpreter.js' in your IDE
    - To begin, let's define a new function, which will handle the logic for `first-char` :
-      ```
+      ```js
       function firstChar(args) {
          // logic here...
       }
@@ -289,7 +299,7 @@ You can find more extensive documentation inside the files.
    - when this function will be called the operands are passed as paramters, that is, `args` will be the operands to our new function `first-char`. So in our case, `args` should be a string.
    - First, let's check that we only get one operand, this means that the length of `args` should be 1. Otherwise, we should throw an Error.
    - It's also a good iea to check that operand is a string. We can do this by using a type-check. This is what the logic inside `firstChar` should currently look like:  
-      ```
+      ```js
       // check argument length
       if (args.length != 1) {
          throw new Error('arity mismatch');
@@ -300,7 +310,7 @@ You can find more extensive documentation inside the files.
    - `RSTRING_T` is the corresponding type to a string in our interpreter < this should be covered in the above sections ... >
    - Now its time to actually perform what we want `first-char` to do!
    - To get the first character of a string, we can simply call substring on the given string, making sure to check that it has one character at least:
-      ```
+      ```js
       let str = args[0];
       let value; 
       if (str.length > 0) {
@@ -312,11 +322,11 @@ You can find more extensive documentation inside the files.
       // same as: value = str.length > 0 ? str.substring(0, 1) : "";
       ```
    - Keep in mind that this is function will be evaluted by our interpreter, so let's return it in accordingly: 
-      ```
+      ```Js
       return {value: value , type: RSTRING_T};
       ```
    - This is what the body of `firstChar` should look like:
-      ```
+      ```js
       // check argument length
       if (args.length != 1) {
          throw new Error('arity mismatch');
@@ -335,11 +345,11 @@ You can find more extensive documentation inside the files.
       return {value: value , type: RSTRING_T};
       ```
    - The last thing we need to do is add it to protoEnv :
-      ```
+      ```js
       protoEnv = [
          ...
          { name: 'first-char', binding: { type: RFUNC_T, value: firstChar } }
       ];
       ```
-   - < a little breakdown of this >
+   - Functions inside the `protoEnv` will be "built-in" so the user need not define them in the Table tool
    - Congrats! You have successfully added a new function to the BSL Table Tool!
