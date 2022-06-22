@@ -259,7 +259,7 @@ Let's take a closer look at the important features of BSL.
 - **Primitives** 
    + These are the built-in operations that BSL supports
    + Some of these are the basic arithmetic operators such as `+`, `-`, `*`, `/` and even operations to convert a string to number, like `string->number`
-   + Here is the full link to the all the supported primitives in the Beginning Student Table Tool:
+   + The full list of the primitives supported by the Table tool can be found here: [SupportedPrimitives.txt](SupportedPrimitives.txt)
    + If you would like to expand on this list, please see the [For Developers](#for-developers) section
 
 If you want to learn more about BSL, visit the official documentation: https://docs.racket-lang.org/htdp-langs/beginner.html

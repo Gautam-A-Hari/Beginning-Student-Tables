@@ -4,7 +4,8 @@ import { shallow, mount, render } from "enzyme";
 import "../setupTest.js"
 
 describe("", () => {
-    it("renders with text", () => {
+    // tests whether the given rawText is in the textarea upon component render
+    it("renders with the passed rawText prop", () => {
         const wrapper = mount(<ValidatedArea placeholder={"text"}
             text={undefined}
             rawText={"testing text"}
