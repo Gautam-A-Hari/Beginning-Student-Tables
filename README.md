@@ -62,6 +62,8 @@ A tool for writing programs systematically using check-expects (unit tests) in t
 
 Two sentences describing the features. 
 
+With the Table Tool, you can write check-expects, test out different formulas, and export a combined program. The tool fully supports structure and constant definitions, pseudo-recursion, and check-expect imports.
+
 ---
 ## Table Of Contents
 * [Quick Start](#quick-start)
@@ -84,7 +86,7 @@ Two sentences describing the features.
 ---
 
 ## Quick Start
-**"I want to use this now!!"** : http://cedar.sice.indiana.edu:35888/Beginning-Student-Tables/
+**"I want to use this now!"** : http://cedar.sice.indiana.edu:35888/Beginning-Student-Tables/
 
 **"Let me run on this on my own machine first..."** :
 1. Clone this repository
@@ -115,9 +117,12 @@ Two sentences describing the features.
 **Never seen this language before?** No worries! Beginning Student Language check-expects are just like unit tests. The BSL Table tool allows you to design functions and run unit tests on them. To get started with BSL's paranthesized syntax, refer to the [Parenthesized Syntax](#parenthesized-syntax) section below! ... 
 
 ### Using the Table Tool
-Transition line... (something about getting to know the table, and being familiart with the design recipe)
+
+This section will guide you through using the Table Tool. The steps to use it follow the "design recipe". The design recipe is a sequence of steps to take to systematically write and orgnaize a program. You can learn more about it in Section 6.1 of Part I in ["How to Design Programs"](http://htdp.org/2022-2-9/Book/part_one.html).
 
 This section tells the user about the layout of the table tool: what the name field is, signature field, purpose, inputs, params, want, formula and etc...
+
+Below is a breakdown of the layout of the table tool, and how to use them. 
 
 <!--![Table Toole Guide Image](tfpie/TableToolGuideImage.png?raw=true "TableToolGuideImage")-->
 
@@ -227,6 +232,9 @@ Here are a few quick things to know about BSL to get you started:
    (list 1 2)
    ```
    - note that spaces are used instead of commas
+   - Only the first and the 'rest' of the elements can be accessed in a list:
+      - `(first (cons 1 (cons 2 (cons empty))))` will return `1`
+      - `(rest (cons 1 (cons 2 (cons empty))))` will return `(cons 2 (cons empty))`
 - Unit tests can be written using the `check-expect` function (more on this below):
    - calls the specified function and compares it with specified output:
    ```
@@ -240,15 +248,19 @@ Let's take a closer look at the important features of BSL.
 
 - **Functions** more on using/defining functions
 
-- **Variables** more on variables
+- **Constants and Variables** more on variables
 
-- **Lists** more on lsits here
+- **Lists** more on lists here
 
 - **Unit Tests/Check-expects** more on unit tests here
 
 - **Structures** more on structures here
 
-- **Primitives** link to the current list of supported primitives 
+- **Primitives** 
+   + These are the built-in operations that BSL supports
+   + Some of these are the basic arithmetic operators such as `+`, `-`, `*`, `/` and even operations to convert a string to number, like `string->number`
+   + Here is the full link to the all the supported primitives in the Beginning Student Table Tool:
+   + If you would like to expand on this list, please see the [For Developers](#for-developers) section
 
 If you want to learn more about BSL, visit the official documentation: https://docs.racket-lang.org/htdp-langs/beginner.html
 
