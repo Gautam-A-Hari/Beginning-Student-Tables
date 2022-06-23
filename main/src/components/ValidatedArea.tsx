@@ -26,17 +26,17 @@ class ValidatedArea extends React.Component<Props, State> {
         this.textChange = this.textChange.bind(this);
     }
 
-textChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (!this.props.disabled) {
-        const text = e.target.value;
-        this.setState({ text });
-        if (text === '' && !this.props.dummy) {
-            this.props.onEmpty();
-        } else {
-            this.props.onValid(text);
+    textChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        if (!this.props.disabled) {
+            const text = e.target.value;
+            this.setState({ text });
+            if (text === '' && !this.props.dummy) {
+                this.props.onEmpty();
+            } else {
+                this.props.onValid(text);
+            }
         }
     }
-}
 
     render() {
         let text;
