@@ -97,7 +97,7 @@ With the Table Tool, you can write check-expects, test out different formulas, a
    Or whichever way you install packages on your OS.
 3. Go to your project directory
    ```
-   cd path/to/repo/prototypes/two
+   cd path/to/repo/main/
    ```
 4. Install the dependencies:
    ```
@@ -156,44 +156,48 @@ It's important to remember the colors used by the table:
 Here are some example cases on how you can use the Beginning Student Tables tool to write functions and solve problems. First let's look at a simple case, where we try to convert a temptertature in celsius to fahrenheit. 
 1. Simple Use
 - The problem: write a function to convert celsius to fahrenheit 
-- Ways to approach this problem: 
+- Ways to start developing a function for this problem: 
    1. Write inputs and wants. Type in the formula you think will work. Adjust the formula to pass all the written examples!
    2. Write check-expects in the 'check-expect area'. Write a formula. Adjust the formula to pass all the written examples!
 - Let's test it out!
    - First, let's fill in the function name, signature, and write some examples:
-   - < image showing this here >
+   - ![Table-Tool-Simple-Demo-1](tfpie/TableToolDemoSimple1.png)
    - Let's start with this formula: `(+ c 32)`
    - This gets one of our cases write but not the other...
    - In a new formula cell, let's try to build on it : `(+ 32 (* 1.8 c))`
    - Great! This formula passes all of our tests!
 - We can generate this BSL code using the 'Show Combined Program' check-box below the last table.
-< image here maybe >
 - This generated code includes our intermediate tries for formulas, so let's make sure to get rid of that before using it elsewhere.
+- The final Table should look something like this:
+   
+   ![Table-Tool-Simple-Demo-2](tfpie/TableToolDemoSimple2.png)
 
 That was really easy, how about we look at a slightly more complicated example that requires recursion.
 
 2. Recursive Use
 - The problem: write a function that sums a list of numbers
-- Ways to approach this problem:
+- Ways to start developing the function for this problem:
    1. Write a single input and want, and write your formula. Use the 'add example' button to fill in the rest of the inputs. Write desired wants for these inputs
    2. Write check-expects in the 'check-expects area'. 
 - Let's test it out!
    - To begin, let's fill in the function name, signature and write some examples
-   - < image showing this here >
+   - ![Table-Tool-Recursive-Demo-1](tfpie/TableToolRecursiveDemo1.png)
    - Since we will be adding all the numbers in the list together, lets try to add the first number of the list with the sum of the rest of the list:
    `
    (+ (first lon) (sum (rest lon)))
    `
-   - It looks like we're missing an example for the recursion. We can add it by using the 'add example' button in the output cell.
-   - < image showing this here >
+   - It looks like we're missing a couple examples for recursion. We can add it by using the 'add example' button in the output cell.
    - We get an error saying 'expected a cons, but given empty list'. So let's add a conditional to check wether the given input is a non-empty list or an empty list:
    - In the second formula cell: `(cons? lon)` , and in the formula cell next to that: `(empty? lon)`
    - As you can see, we get new formula cells below these:
-   - < image showing this here >
+   - ![Table-Tool-Recursive-Demo-2](tfpie/TableToolRecursiveDemo2.png)
    - We can use the formula from the previous steps for the `(cons? lon)` case
    - Since the sum of an empty list is zero, we can just write 0 under the `(empty? lon)` case
    - It works!
 - Like before, we can generate the BSL code for this table using the 'Show Combined Proram' check-box below the table. Again, make sure to delete the intermidate steps before using it elsewhere. 
+- The final Table should look similar to this:
+
+   ![Table-Tool-Recursive-Demo-3](tfpie/TableToolRecursiveDemo3.png)
 
 #### Recap of Use
 Some of the things we learned:
