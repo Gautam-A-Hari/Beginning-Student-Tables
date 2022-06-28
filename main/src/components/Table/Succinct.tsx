@@ -2,7 +2,7 @@ import React from 'react';
 import { ExampleArray, isTableNonEmpty, Table } from '../../input-definitions';
 import { Environment, Yellow } from '../../global-definitions';
 import { ValidatedInput } from '../ValidatedInput';
-import { takeKey, peekKey } from '../../App';
+import { takeKey, peekKey } from '../App';
 import { RemButton } from "../RemButton";
 import { Colon } from "../Colon";
 import { SuccinctTab } from './SuccinctTab';
@@ -56,8 +56,8 @@ function Succinct(props: Props) {
       }, false);
     }
 
-    let tableVars:Environment = props.tables.filter((table) => table !== modTab).map((otherTab) => ({ name: otherTab.name, binding: null }));
-    let env:Environment, paramVars;
+    let tableVars: Environment = props.tables.filter((table) => table !== modTab).map((otherTab) => ({ name: otherTab.name, binding: null }));
+    let env: Environment, paramVars;
     if (isTableNonEmpty(modTab)) {
       paramVars = modTab.params.map((param) => ({ name: param.name, binding: null }));
       env = [...props.globalEnv, ...tableVars, ...paramVars];
@@ -85,7 +85,7 @@ function Succinct(props: Props) {
     let outType = sides[1].match(/[a-zA-Z]+/g);
 
     let noNull = paramTypes !== null && outType !== null;
- 
+
     return noNull ? paramTypes!.length >= 1 && outType!.length === 1 : false;
   }
 
@@ -174,7 +174,7 @@ function Succinct(props: Props) {
             dummy={true}
             placeholder='Table Name'
             text={props.disabled ? '' : undefined}
-            rawText = ""
+            rawText=""
             isValid={(text) => validName(text, { params: [] })}
             onValid={(text) => tableChange({
               name: text,
@@ -186,7 +186,7 @@ function Succinct(props: Props) {
               key: takeKey()
             },
               {})}
-            onEmpty={()=>null}
+            onEmpty={() => null}
           />
           <Colon />
           <ValidatedInput
@@ -205,7 +205,7 @@ function Succinct(props: Props) {
               key: takeKey()
             },
               {})}
-            onEmpty={()=>null}
+            onEmpty={() => null}
           />
         </div>
         <div className='flex_horiz no_grow'>
@@ -225,7 +225,7 @@ function Succinct(props: Props) {
               key: takeKey()
             },
               {})}
-            onEmpty={()=>null}
+            onEmpty={() => null}
           />
         </div>
         <SuccinctTab
@@ -242,7 +242,7 @@ function Succinct(props: Props) {
           }}
           tableNames={props.tables.map((table) => table.name)}
           tableChange={(newTab: Table) => tableChange(newTab, {})}
-          handleOnDrag={()=>null}
+          handleOnDrag={() => null}
         />
       </div>
       <div className='grow'>{/* div to prevent text fields from stretching across the screen */}</div>

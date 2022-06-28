@@ -1,8 +1,7 @@
 import React from "react";
-import { App } from "../App";
+import { App } from "../components/App";
 import { shallow, mount, render } from "enzyme";
 import "../setupTest.js"
-import { CheckExpectArea } from "../components/CheckExpectArea";
 
 it("renders without crashing", () => {
     shallow(<App />);

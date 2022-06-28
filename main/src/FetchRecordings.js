@@ -1,6 +1,6 @@
 import React from 'react';
 import { sessionURL } from './sendifier.js';
-import { App } from './App';
+import { App } from './components/App';
 
 class FetchRecordings extends React.Component {
     constructor(props) {

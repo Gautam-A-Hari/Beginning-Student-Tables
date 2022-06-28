@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './index.css';
-import { App } from './App';
+import { App } from './components/App';
 import { ListRecordings } from "./ListRecordings";
 import { FetchRecordings } from "./FetchRecordings";
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <BrowserRouter>
-        <Route path="/(Beginning-Student-Tables)?/" exact={true} component={App}/>
-        <Route path="/(Beginning-Student-Tables)?/recordings" exact={true} component={ListRecordings}/>
-        <Route path="/(Beginning-Student-Tables)?/session:id" component={FetchRecordings}/>
+        <Route path="/(Beginning-Student-Tables)?/" exact={true} component={App} />
+        <Route path="/(Beginning-Student-Tables)?/recordings" exact={true} component={ListRecordings} />
+        <Route path="/(Beginning-Student-Tables)?/session:id" component={FetchRecordings} />
     </BrowserRouter>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

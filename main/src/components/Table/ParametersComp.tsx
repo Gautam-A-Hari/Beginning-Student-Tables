@@ -1,5 +1,5 @@
 import React from "react";
-import { peekKey, takeKey } from "../../App";
+import { peekKey, takeKey } from "../App";
 import { RemButton } from "../RemButton";
 import { Environment, Yellow } from "../../global-definitions";
 import { ExampleArray, Parameter, ParameterArray, isParameterNonEmpty } from "../../input-definitions";
@@ -32,7 +32,7 @@ function ParametersComp(props: Props) {
         // These are not technically Variables, see note above
         let paramVars = props.params.filter((param) => param !== modParam).map((param) => ({ name: param.name, binding: null }));
         let tableVars = props.tableNames.map((name) => ({ name: name, binding: null }));
-        let env:Environment = [...props.globalEnv, ...tableVars, ...paramVars];
+        let env: Environment = [...props.globalEnv, ...tableVars, ...paramVars];
 
         return typeof text === "string" ? nameRE.test(text) && !inEnv(text, env) : false;
     }
@@ -112,7 +112,7 @@ function ParametersComp(props: Props) {
                         key: takeKey()
                     },
                         {})}
-                    onEmpty={()=>null}
+                    onEmpty={() => null}
                 />
             </div>
         </th>

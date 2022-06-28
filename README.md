@@ -69,7 +69,7 @@ With the Table Tool, you can write check-expects, test out different formulas, a
 * [Quick Start](#quick-start)
 * [For Students](#for-students)
    + [Using the Table Tool](#using-the-table-tool)
-   + [Examples of Uses](#example-of-uses)
+   + [Examples of Uses](#examples-of-uses)
       * [Recap of use](#recap-of-use)
    + [Parenthesized Syntax](#parenthesized-syntax)
       * [Quick Rundown](#quick-rundown)

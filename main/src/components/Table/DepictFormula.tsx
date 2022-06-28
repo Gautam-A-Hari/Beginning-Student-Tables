@@ -1,5 +1,5 @@
 import React from "react";
-import { peekKey, takeKey, unparse_to_string } from "../../App";
+import { peekKey, takeKey, unparse_to_string } from "../App";
 import { RemButton } from "../RemButton";
 import { Formula, isBooleanFormula, isFormulaNonEmpty } from "../../input-definitions";
 import { parseCheck } from "../../interpreter";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 function DepictFormula(props: Props) {
-    function validProg(text:(string | undefined)) {
+    function validProg(text: (string | undefined)) {
         try {
             parseCheck(text);
         } catch (e) {
@@ -49,19 +49,19 @@ function DepictFormula(props: Props) {
     }
 
     // if the rawFormulaString doesn't parse, pass up the formula with the previous validated
-    function validChildChange(newChild: Formula, modChild: ({} | Formula), newRawFormulaString:string) {
+    function validChildChange(newChild: Formula, modChild: ({} | Formula), newRawFormulaString: string) {
         try {
             childChange({
                 ...newChild,
                 prog: { raw: newRawFormulaString, validated: parseCheck(newRawFormulaString) }
             },
-            newChild)
+                newChild)
         } catch (e) {
             childChange({
                 ...newChild,
                 prog: { raw: newRawFormulaString, validated: newChild.prog.validated }
             },
-            modChild)
+                modChild)
         }
     }
 
@@ -108,7 +108,7 @@ function DepictFormula(props: Props) {
                             onValid={(text) => validChildChange(child, child, text)}
                             onEmpty={() => childChange({
                                 ...child,
-                                prog: { raw: '', validated: {yellow: 'yellow' }}
+                                prog: { raw: '', validated: { yellow: 'yellow' } }
                             },
                                 child)}
                         />
@@ -131,11 +131,11 @@ function DepictFormula(props: Props) {
                             disabled={props.disabled}
                             isValid={validProg}
                             onValid={(text) => validChildChange({
-                                prog: {raw: text, validated: {yellow: 'yellow'}},
-                                outputs: Array(props.numExamples).fill({raw: '', validated: {yellow: 'yellow'}}),
+                                prog: { raw: text, validated: { yellow: 'yellow' } },
+                                outputs: Array(props.numExamples).fill({ raw: '', validated: { yellow: 'yellow' } }),
                                 key: takeKey()
                             }, {}, text)}
-                            onEmpty={()=>null}
+                            onEmpty={() => null}
                         />
                     </div>
                 </th>

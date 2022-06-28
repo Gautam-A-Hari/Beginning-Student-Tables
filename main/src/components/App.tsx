@@ -1,37 +1,29 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import 'react-table/react-table.css';
-import { interp, interpPrefix, unparse_cons, unparse_list, initEnv, RFUNCT_T, isRIMAGE } from './interpreter.js';
-import { parsePrefix } from './parser.js';
-import { allBools, gray, pink, yellow } from './header';
-import { paint, width, height, makeRectangle, makeOverlay } from './image';
-import { Sendifier } from './sendifier.js';
+import { interp, interpPrefix, unparse_cons, unparse_list, initEnv, RFUNCT_T, isRIMAGE } from '../interpreter.js';
+import { parsePrefix } from '../parser.js';
+import { allBools, gray, pink, yellow } from '../header';
+import { paint, width, height, makeRectangle, makeOverlay } from '../image';
+import { Sendifier } from '../sendifier.js';
 import './App.css';
-
-// component imports 
 
 // Type Imports
 import {
     CheckExpect, Example, ExampleArray, Formula, FormulaArray, Input, InputArray, isBooleanFormula, isValidatedProgInputNonYellow,
     isTableNameYellow, Parameter, ProgramInput, Table, ValidatedProgInput, OutputArray, Output, isOutputNonYellow, isParamNonYellow,
     isYellowProgramGray, ParameterArray
-} from './input-definitions';
+} from '../input-definitions';
 
-import { DefinitionsArea } from './components/DefinitionsArea';
-import { Succinct } from './components/Table/Succinct';
-import { BSLArea } from './components/BSLArea';
-import { isSnapshotArray, Snapshot } from './recording-definitions';
-import { Environment, isRAPPT, isRBOOL, isRLIST, isRSTRUCT, Program, ProgramArray } from './global-definitions';
-import { CheckExpectArea } from './components/CheckExpectArea';
-import { InterpreterError } from './InterperterError';
-import { AddExampleButton } from './components/AddExampleButton';
-
-/*****************************
-  Universal Constants I Want
-*****************************/
-// this one's different because it has a $ at the end so it tests
-// the string until the end
-const nameRE = /^(?!-?(?:\d+(?:\.\d*)?|\.\d+)(?=$|[\s",'`()[\]{}|;#]))[^\s",'`()[\]{}|;#]+$/;
+// Component Imports
+import { DefinitionsArea } from './DefinitionsArea';
+import { Succinct } from './Table/Succinct';
+import { BSLArea } from './BSLArea';
+import { isSnapshotArray, Snapshot } from '../recording-definitions';
+import { Environment, isRAPPT, isRBOOL, isRLIST, isRSTRUCT, Program, ProgramArray } from '../global-definitions';
+import { CheckExpectArea } from './CheckExpectArea';
+import { InterpreterError } from '../InterperterError';
+import { AddExampleButton } from './AddExampleButton';
 
 
 /*********************

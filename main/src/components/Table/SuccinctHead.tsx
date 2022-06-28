@@ -1,5 +1,5 @@
 import React from "react";
-import { takeKey, peekKey, unparse_to_string } from '../../App';
+import { takeKey, peekKey, unparse_to_string } from '../App';
 import { RemButton } from "../RemButton";
 import { DepictFormula } from "./DepictFormula";
 import { Environment, Yellow } from "../../global-definitions";
@@ -55,7 +55,7 @@ function SuccinctHead(props: Props) {
     function formulaChange(newForm: Formula, oldForm: ({} | Formula)) {
 
         // exists = oldTab == {} ? false : props.tables.indexOf(oldTab) === -1;
-        let alteredForms:FormulaArray;
+        let alteredForms: FormulaArray;
         if ((isNonEmptyFormula(oldForm) && props.formulas.indexOf(oldForm) === -1) || !isNonEmptyFormula(oldForm)) {
             alteredForms = [...props.formulas, newForm];
         } else {
@@ -64,7 +64,7 @@ function SuccinctHead(props: Props) {
         props.formulasChange(alteredForms);
     }
 
-    
+
     // if the the formula is valid, pass formula up with the string's parsed validated value,
     // else, pass the formula up with the previous validated value
     // this ensures that the rawString will be passed back down, while handling erros
@@ -72,18 +72,18 @@ function SuccinctHead(props: Props) {
         try {
             formulaChange({
                 ...newFormula,
-                prog: {raw: newFormulaString, validated: parseCheck(newFormulaString)}
+                prog: { raw: newFormulaString, validated: parseCheck(newFormulaString) }
             },
                 oldFormula)
         } catch (e) {
             formulaChange({
                 ...newFormula,
-                prog: {raw: newFormulaString, validated: newFormula.prog.validated}
+                prog: { raw: newFormulaString, validated: newFormula.prog.validated }
             },
                 oldFormula)
         }
     }
-    
+
 
     // Formula -> Number -> Number
     // gives the maximum depth of a Formula, second parameter is an accumulator
@@ -156,12 +156,12 @@ function SuccinctHead(props: Props) {
                     disabled={props.disabled}
                     isValid={validProg}
                     onValid={(text) => validFormulaChange({
-                        prog: { raw: text, validated: { yellow: 'yellow' }},
+                        prog: { raw: text, validated: { yellow: 'yellow' } },
                         outputs: props.examples.map((_) => ({ yellow: 'yellow' })),
-                                                key: takeKey()
-                                            },
-                                            { }, text)}
-                onEmpty={()=>null}
+                        key: takeKey()
+                    },
+                        {}, text)}
+                    onEmpty={() => null}
                 />
             </div>
         </th>

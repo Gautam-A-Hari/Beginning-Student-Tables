@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { deepEquals, unparse_to_string } from "../../App";
+import { deepEquals, unparse_to_string } from "../App";
 import { ErrorMessage } from "../ErrorMessage";
 import { Environment, Program } from "../../global-definitions";
 import { height, width } from "../../image";
@@ -11,10 +11,10 @@ interface Props {
     want: ProgramInput
     wantInputRef: RefObject<HTMLTextAreaElement>
     dummy: boolean
-    globalEnv : Environment
+    globalEnv: Environment
     disabled: boolean
 
-    wantChange : (want: ProgramInput) => void
+    wantChange: (want: ProgramInput) => void
 }
 
 interface State {
@@ -22,7 +22,7 @@ interface State {
 }
 
 class Want extends React.Component<Props, State> {
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isOpen: false,
@@ -44,14 +44,14 @@ class Want extends React.Component<Props, State> {
     // if the newWantString parses with error, pass up with the validated of the last correct
     validWantChange(newWantString: string) {
         try {
-            this.props.wantChange({raw: newWantString, validated: parseCheck(newWantString)});
+            this.props.wantChange({ raw: newWantString, validated: parseCheck(newWantString) });
         } catch (e) {
-            this.props.wantChange({raw: newWantString, validated: this.props.want.validated});
+            this.props.wantChange({ raw: newWantString, validated: this.props.want.validated });
         }
     }
 
     // Program -> State
-    handleViewClick(prog:Program) {
+    handleViewClick(prog: Program) {
         // check for return type
         if (this.isZoomable(prog)) {
             this.setState(
@@ -62,14 +62,14 @@ class Want extends React.Component<Props, State> {
 
     // Progam -> Boolean
     // determines whether the given image should be zoomable
-    isZoomable(prog:Program) {
+    isZoomable(prog: Program) {
         // width and height max could be constants...
         return prog.type === RIMAGE_T ? (width(prog.value) > 250 || height(prog.value) > 250) : false;
     }
 
 
     // Props -> State
-    componentDidUpdate(prevProps:Props) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.want !== this.props.want) {
             this.setState({
                 isOpen: false
@@ -84,7 +84,7 @@ class Want extends React.Component<Props, State> {
             valueCell = <script />;
         } else {
             try {
-                let evalWant:Program = interp(this.props.want.validated, this.props.globalEnv);
+                let evalWant: Program = interp(this.props.want.validated, this.props.globalEnv);
                 if (deepEquals(evalWant, this.props.want.validated)) {
                     valueCell = <script />;
                 } else {
@@ -107,8 +107,8 @@ class Want extends React.Component<Props, State> {
                             disabled={this.props.disabled}
                             inputRef={this.props.wantInputRef}
                             isValid={this.validProg}
-                            onValid={(text:(string)) => this.validWantChange(text)}
-                            onEmpty={() => this.props.wantChange({raw: '', validated: {yellow: 'yellow'}})}
+                            onValid={(text: (string)) => this.validWantChange(text)}
+                            onEmpty={() => this.props.wantChange({ raw: '', validated: { yellow: 'yellow' } })}
                         />
                     </div>
                 </td>

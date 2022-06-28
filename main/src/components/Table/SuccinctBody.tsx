@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { peekKey, takeKey } from '../../App';
+import { peekKey, takeKey } from '../App';
 import { RemButton } from "../RemButton";
 import { Environment } from '../../global-definitions';
 import { Example, ExampleArray, Formula, FormulaArray, InputArray, isBooleanFormula, isExampleNonEmpty, NameInput, OutputArray, ProgramInput } from '../../input-definitions';
@@ -57,7 +57,7 @@ function SuccinctBody(props: Props) {
         // Formula -> Formula
         // adds an init output to the given formula and all of its children (if it has any) so stuff works
         function addAnotherOutputToFormula(formula: Formula): Formula {
-            let outputs:OutputArray = [...formula.outputs, { yellow: 'yellow' }];
+            let outputs: OutputArray = [...formula.outputs, { yellow: 'yellow' }];
 
             if (isBooleanFormula(formula)) {
                 const thenChildren = formula.thenChildren.map(addAnotherOutputToFormula);
@@ -90,7 +90,7 @@ function SuccinctBody(props: Props) {
     // handleOnRowDrag : DragObject -> 
     // passes an updated Example order to handleOnDrag
     // result is HTMLInputObject type thing
-    function handleOnRowDrag(result:any):any {
+    function handleOnRowDrag(result: any): any {
         if (!result.destination || result.source.index === result.destination.index) {
             return;
         }
@@ -100,11 +100,11 @@ function SuccinctBody(props: Props) {
         let newYellowExample: Example;
 
         if (sourceIndex === examplesList.length) {
-            newYellowExample = { inputs: [{ prog: {raw: '' , validated: { yellow : 'yellow' }}, key: takeKey() }], want: {raw: '' , validated: { yellow : 'yellow' }}, wantInputRef: React.createRef(), key: takeKey() };
+            newYellowExample = { inputs: [{ prog: { raw: '', validated: { yellow: 'yellow' } }, key: takeKey() }], want: { raw: '', validated: { yellow: 'yellow' } }, wantInputRef: React.createRef(), key: takeKey() };
             examplesList.splice(destinationIndex, 0, newYellowExample);
             props.handleOnDrag(examplesList, props.tableIndex!, true);
         } else if (destinationIndex === examplesList.length) {
-            newYellowExample = { inputs: [{ prog: {raw: '' , validated: { yellow : 'yellow' }}, key: takeKey() }], want: {raw: '' , validated: { yellow : 'yellow' }}, wantInputRef: React.createRef(), key: takeKey() };
+            newYellowExample = { inputs: [{ prog: { raw: '', validated: { yellow: 'yellow' } }, key: takeKey() }], want: { raw: '', validated: { yellow: 'yellow' } }, wantInputRef: React.createRef(), key: takeKey() };
             examplesList.splice(destinationIndex, 0, newYellowExample);
             const [reorderedExample] = examplesList.splice(sourceIndex, 1);
             examplesList.splice(destinationIndex, 0, reorderedExample);
@@ -150,7 +150,7 @@ function SuccinctBody(props: Props) {
                         dummy={false}
                         want={example.want}
                         wantInputRef={example.wantInputRef}
-                        wantChange={(want:ProgramInput) => exampleChange({ ...example, want },
+                        wantChange={(want: ProgramInput) => exampleChange({ ...example, want },
                             example)}
                     />
                 </tr>
@@ -158,18 +158,18 @@ function SuccinctBody(props: Props) {
         </Draggable>
     ));
 
-    const dummyRef:RefObject<HTMLTextAreaElement> = React.createRef();
+    const dummyRef: RefObject<HTMLTextAreaElement> = React.createRef();
     const dummy = (
         // index = examples.length
         <Draggable key={peekKey(props.paramNames.length)} index={props.examples.length} draggableId={peekKey().toString()}>
-            {(provided:any) => (
+            {(provided: any) => (
                 <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} tabIndex="-1">
                     <td>{/* empty cell to offset rembutton */}</td>
                     <Inputs
                         disabled={props.disabled}
                         globalEnv={props.globalEnv}
                         dummy={true}
-                        inputs={props.paramNames.map((_, i) => ({prog:{raw:'', validated: {yellow: "yellow"}}, key: peekKey(i) }))}
+                        inputs={props.paramNames.map((_, i) => ({ prog: { raw: '', validated: { yellow: "yellow" } }, key: peekKey(i) }))}
                         inputsChange={(inputs: InputArray) => exampleChange({
                             inputs,
                             want: { raw: '', validated: { yellow: 'yellow' } },
@@ -183,7 +183,7 @@ function SuccinctBody(props: Props) {
                         globalEnv={props.globalEnv}
                         dummy={true}
                         formulas={props.formulas}
-                        want={{raw: '', validated: {yellow: "yellow"}}}
+                        want={{ raw: '', validated: { yellow: "yellow" } }}
                         row={0}
                     />
                     <td>{/* empty cell to align with top level formula dummy input */}</td>
@@ -191,7 +191,7 @@ function SuccinctBody(props: Props) {
                         disabled={props.disabled}
                         globalEnv={props.globalEnv}
                         dummy={true}
-                        want={{raw:'', validated:{yellow:'yellow'}}}
+                        want={{ raw: '', validated: { yellow: 'yellow' } }}
                         wantInputRef={dummyRef}
                         wantChange={(want: ProgramInput) => exampleChange({
                             want,

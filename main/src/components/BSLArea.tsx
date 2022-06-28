@@ -1,5 +1,5 @@
 import React from "react";
-import { listOrCons } from "../App";
+import { listOrCons } from "./App";
 import { Table } from "../input-definitions";
 import toBSL from "../prettyprint";
 
@@ -12,7 +12,7 @@ interface State {
 }
 
 class BSLArea extends React.Component<Props, State> {
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         let showBSL = false;
@@ -21,7 +21,7 @@ class BSLArea extends React.Component<Props, State> {
         this.toggleDisplay = this.toggleDisplay.bind(this);
     }
 
-    toggleDisplay(e:React.ChangeEvent<HTMLInputElement>) {
+    toggleDisplay(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState((state) => ({ showBSL: !state.showBSL }));
     }
 

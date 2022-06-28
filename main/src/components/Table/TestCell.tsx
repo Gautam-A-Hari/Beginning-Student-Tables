@@ -1,6 +1,6 @@
 import Octicon, { Check } from "@primer/octicons-react";
 import React from "react";
-import { deepEquals, unparse } from "../../App";
+import { deepEquals, unparse } from "../App";
 import { ErrorMessage } from "../ErrorMessage";
 import { Environment, Program } from "../../global-definitions";
 import { yellow } from "../../header";
@@ -9,10 +9,10 @@ import { isOutputNonYellow, isValidatedProgInputNonYellow, isYellowProgramGray, 
 import { interp, RIMAGE_T } from "../../interpreter";
 
 interface Props {
-    globalEnv : Environment
+    globalEnv: Environment
     output: Output
     want: ProgramInput
-    
+
 }
 
 interface State {
@@ -20,7 +20,7 @@ interface State {
 }
 class TestCell extends React.Component<Props, State> {
     /* have unparse(image) be a full size render, maybe by storing full size render in state? */
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
         this.handleViewClick = this.handleViewClick.bind(this);
         this.isZoomable = this.isZoomable.bind(this);
@@ -31,7 +31,7 @@ class TestCell extends React.Component<Props, State> {
     // paint could be called with an extra param that specifies what type of render should be returned
 
     // Output ->
-    handleViewClick(prog:Output) {
+    handleViewClick(prog: Output) {
         // check if program returns an image
         if (!isOutputNonYellow(prog)) return false;
         if (this.isZoomable(prog)) {
@@ -43,7 +43,7 @@ class TestCell extends React.Component<Props, State> {
 
     // Output -> Boolean
     // determines whether the image should be zoomable
-    isZoomable(prog:Program) {
+    isZoomable(prog: Program) {
         if (isOutputNonYellow(prog)) {
             // maybe export Types not as type so we can have Types.RIMAGE_T
             return prog.type === RIMAGE_T ? (width(prog.value) > 250 || height(prog.value) > 250) : false;
@@ -51,7 +51,7 @@ class TestCell extends React.Component<Props, State> {
         return false;
     }
 
-    componentDidUpdate(prevProps:Props) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.output !== this.props.output) {
             this.setState({
                 isOpen: false
@@ -87,11 +87,11 @@ class TestCell extends React.Component<Props, State> {
             return <td><ErrorMessage error={output} /></td>
         }
 
-        let want:ProgramInput;
+        let want: ProgramInput;
         try {
-            want = {raw: this.props.want.raw, validated: interp(this.props.want.validated, this.props.globalEnv)};
+            want = { raw: this.props.want.raw, validated: interp(this.props.want.validated, this.props.globalEnv) };
         } catch (e) {
-            want = {raw: '', validated: yellow};
+            want = { raw: '', validated: yellow };
         }
 
         if (isValidatedProgInputNonYellow(want.validated) && isOutputNonYellow(output) && deepEquals(output, want.validated)) {
@@ -100,12 +100,12 @@ class TestCell extends React.Component<Props, State> {
                     {unparse(output)}
                     <div title={"Yay! It's right!"} className="check">
                         <Octicon
-                            icon={Check} size="small" verticalAlign="middle" 
+                            icon={Check} size="small" verticalAlign="middle"
                             ariaLabel='Yay!' />
                     </div>
                 </td>
             )
-        } else if (isOutputNonYellow(output) && isValidatedProgInputNonYellow(output)){
+        } else if (isOutputNonYellow(output) && isValidatedProgInputNonYellow(output)) {
             return (
                 <td className='output'>
                     {unparse(output)}

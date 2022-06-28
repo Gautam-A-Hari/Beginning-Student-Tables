@@ -1,5 +1,5 @@
 import React from "react";
-import { peekKey, takeKey } from "../../App";
+import { peekKey, takeKey } from "../App";
 import { ErrorMessage } from "../ErrorMessage";
 import { Environment, Yellow } from "../../global-definitions";
 import { Input, InputArray, isValidatedProgInputNonYellow } from "../../input-definitions";
@@ -7,16 +7,16 @@ import { interp, parseCheck } from "../../interpreter";
 import { ValidatedArea } from "../ValidatedArea";
 
 interface Props {
-    disabled : boolean
-    globalEnv : Environment
+    disabled: boolean
+    globalEnv: Environment
     dummy: boolean
     inputs: InputArray
 
     inputsChange: (inputs: InputArray) => void
 }
 
-function Inputs(props:Props) {
-    function validProg(text:(string | undefined | Yellow)) {
+function Inputs(props: Props) {
+    function validProg(text: (string | undefined | Yellow)) {
         try {
             parseCheck(text);
         } catch (e) {
@@ -25,10 +25,10 @@ function Inputs(props:Props) {
         return true;
     }
 
-    function inputChange(newInput:Input, oldInput:Input) {
-        let alteredInputs:InputArray;
+    function inputChange(newInput: Input, oldInput: Input) {
+        let alteredInputs: InputArray;
         if (props.dummy) {
-            alteredInputs = props.inputs.map((input) => input === oldInput ? { ...newInput, key: takeKey() } : { prog: {raw: "", validated: {yellow: "yellow"}}, key: takeKey() });
+            alteredInputs = props.inputs.map((input) => input === oldInput ? { ...newInput, key: takeKey() } : { prog: { raw: "", validated: { yellow: "yellow" } }, key: takeKey() });
         } else {
             alteredInputs = props.inputs.map((input) => input === oldInput ? newInput : input);
         }
@@ -38,16 +38,16 @@ function Inputs(props:Props) {
     function validInputChange(newInput: Input, oldInput: Input, newRawInputString: string) {
         try {
             inputChange({
-                ...newInput, 
-                prog: { raw: newRawInputString, validated: parseCheck(newRawInputString) } 
-            }, 
+                ...newInput,
+                prog: { raw: newRawInputString, validated: parseCheck(newRawInputString) }
+            },
                 oldInput);
         } catch (e) {
             inputChange({
-                ...newInput, 
-                prog: { raw: newRawInputString, validated: newInput.prog.validated } 
-            }, 
-            oldInput);
+                ...newInput,
+                prog: { raw: newRawInputString, validated: newInput.prog.validated }
+            },
+                oldInput);
         }
     }
 
@@ -66,9 +66,9 @@ function Inputs(props:Props) {
                                 rawText=''
                                 disabled={props.disabled}
                                 isValid={validProg}
-                                onValid={(text:string) => validInputChange({ prog: { raw: text, validated: { yellow: "yellow" } }, key: peekKey() }, input, text)}
-                                
-                                onEmpty={()=>null}
+                                onValid={(text: string) => validInputChange({ prog: { raw: text, validated: { yellow: "yellow" } }, key: peekKey() }, input, text)}
+
+                                onEmpty={() => null}
                             />
                         </div>
                         {error}
@@ -94,10 +94,10 @@ function Inputs(props:Props) {
                                 placeholder={'Input'}
                                 text={props.disabled ? input.prog.raw : undefined}
                                 isValid={validProg}
-                                onValid={(text:string) => validInputChange(input, input, text)}
+                                onValid={(text: string) => validInputChange(input, input, text)}
                                 onEmpty={() => inputChange({
                                     ...input,
-                                    prog: {raw:"", validated:{yellow:"yellow"}}
+                                    prog: { raw: "", validated: { yellow: "yellow" } }
                                 },
                                     input)}
                                 rawText={input.prog.raw}
